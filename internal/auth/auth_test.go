@@ -68,7 +68,8 @@ func TestGetAPIKey(t *testing.T) {
 				}
 				// Also validate that the output is empty when there's an error.
 				if output != test.expect {
-					t.Errorf("Unexpected output: got %s, expected %s", output)
+					t.Errorf("Unexpected output: got %s, expected %s", output, test.expect)
+					return
 				}
 			}
 		})
