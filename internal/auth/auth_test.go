@@ -15,36 +15,31 @@ func TestGetAPIKey(t *testing.T) {
 		expectErr string
 	}{
 		{
-			expectErr: "no authorization header",
-			expect:    "", // Add this to explicitly validate output.
+			expectErr: "no authorization header included",
+			expect:    "", // Explicitly validate empty output on error.
 		},
 		{
 			key:       "Authorization",
-			expectErr: "no authorization header",
-			expect:    "", // Add this for empty-value headers.
-		},
-		{
-			expectErr: "no authorization header",
-		},
-		{
-			key:       "Authorization",
-			expectErr: "no authorization header",
+			expectErr: "no authorization header included",
+			expect:    "", // Empty-value headers should also expect empty output.
 		},
 		{
 			key:       "Authorization",
 			value:     "-",
 			expectErr: "malformed authorization header",
+			expect:    "", // Explicitly validate output on error.
 		},
 		{
 			key:       "Authorization",
 			value:     "Bearer xxxxxx",
 			expectErr: "malformed authorization header",
+			expect:    "", // Explicitly validate output on error.
 		},
 		{
 			key:       "Authorization",
 			value:     "ApiKey xxxxxx",
 			expect:    "xxxxxx",
-			expectErr: "not expecting an error",
+			expectErr: "",
 		},
 	}
 
