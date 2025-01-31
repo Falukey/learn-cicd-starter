@@ -16,6 +16,15 @@ func TestGetAPIKey(t *testing.T) {
 	}{
 		{
 			expectErr: "no authorization header",
+			expect:    "", // Add this to explicitly validate output.
+		},
+		{
+			key:       "Authorization",
+			expectErr: "no authorization header",
+			expect:    "", // Add this for empty-value headers.
+		},
+		{
+			expectErr: "no authorization header",
 		},
 		{
 			key:       "Authorization",
@@ -56,6 +65,16 @@ func TestGetAPIKey(t *testing.T) {
 			if output != test.expect {
 				t.Errorf("Unexpected: TestGetAPIKey:%s", output)
 				return
+			}
+			if err != nil {
+				// Validate if the error message contains the expected error.
+				if !strings.Contains(err.Error(), test.expectErr) {
+					t.Errorf("Unexpected error: got %v, want %v", err, test.expectErr)
+				}
+				// Also validate that the output is empty when there's an error.
+				if output != test.expect {
+					t.Errorf("Unexpected output: got %s, expected %s", output)
+				}
 			}
 		})
 	}
