@@ -29,8 +29,8 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
-      - name: Use gcloud CLI
-        run: gcloud info
-
       - name: Build and push Docker image
         run: gcloud builds submit --tag us-central1-docker.pkg.dev/t-gateway-450914-m2/notely-ar-repo/notely:1 .
+      
+      - name: Deploy to Cloud Run
+        run: gcloud run deploy notely --image us-central1-docker.pkg.dev/t-gateway-450914-m2/notely-ar-repo/notely:1 --region us-central1 --allow-unauthenticated --project t-gateway-450914-m2 --max-instances=4
